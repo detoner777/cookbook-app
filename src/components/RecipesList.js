@@ -32,17 +32,29 @@ export default class RecipesList extends Component {
     super(props);
 
     this.deleteRecipe = this.deleteRecipe.bind(this);
+    this.toggleSortDate = this.toggleSortDate.bind(this);
 
     this.state = {
       recipes: []
-      // postList: []
     };
   }
 
-  // sortByDate() {
-  //   const { postList } = this.state.recipes;
-  //   let newPostList = postList;
-  // }
+  sortByDate() {
+    const sortRecipes = this.state.recipes;
+    sortRecipes
+      .sort((a, b) => {
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      })
+      .reverse();
+    this.setState({
+      recipes: sortRecipes
+    });
+  }
+
+  toggleSortDate(e) {
+    this.sortByDate();
+    e.preventDefault();
+  }
 
   componentDidMount() {
     axios
@@ -87,7 +99,16 @@ export default class RecipesList extends Component {
               <th>Dish</th>
               <th>Description</th>
               <th style={{ width: "80px" }}>{clockIcon}</th>
-              <th style={{ width: "108px" }}>Date</th>
+              <th style={{ width: "108px" }}>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  onClick={this.toggleSortDate}
+                  style={{ width: "60px" }}
+                >
+                  Date
+                </button>
+              </th>
               <th style={{ width: "108px" }}>Actions</th>
             </tr>
           </thead>

@@ -7,7 +7,7 @@ router.route("/").get((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-//Backup route
+//Backup add route
 router.route("/add").post((req, res) => {
   const recipeNameBackup = req.body.recipeNameBackup;
   const recipeDescriptionBackup = req.body.recipeDescriptionBackup;
@@ -26,6 +26,13 @@ router.route("/add").post((req, res) => {
   newBackup
     .save()
     .then(() => res.json("Backup recipe added!"))
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
+// get all matches backups
+router.route("/:hidenId").get((req, res) => {
+  Backup.find({ hidenId: req.params.hidenId })
+    .then(recipes => res.json(recipes))
     .catch(err => res.status(400).json("Error: " + err));
 });
 

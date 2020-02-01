@@ -17,7 +17,7 @@ function App() {
         <Route path="/" exact component={RecipesList} />
         <Route path="/edit/:id" component={EditRecipe} />
         <Route path="/create" component={CreateRecipe} />
-        <Route path="/history/:id" component={BackupHistory} />
+        <Route path="/backups/:hidenId" component={BackupHistory} />
       </div>
     </Router>
   );

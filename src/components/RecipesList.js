@@ -22,7 +22,7 @@ const Recipe = props => (
       >
         delete
       </a>{" "}
-      | <Link to={"/history/" + props.recipe._id}>history</Link> |
+      | <Link to={"/backups/" + props.recipe.hidenId}>history</Link> |
     </td>
   </tr>
 );
@@ -33,8 +33,16 @@ export default class RecipesList extends Component {
 
     this.deleteRecipe = this.deleteRecipe.bind(this);
 
-    this.state = { recipes: [] };
+    this.state = {
+      recipes: []
+      // postList: []
+    };
   }
+
+  // sortByDate() {
+  //   const { postList } = this.state.recipes;
+  //   let newPostList = postList;
+  // }
 
   componentDidMount() {
     axios

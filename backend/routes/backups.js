@@ -35,5 +35,11 @@ router.route("/:hidenId").get((req, res) => {
     .then(recipes => res.json(recipes))
     .catch(err => res.status(400).json("Error: " + err));
 });
+// get single backup
+router.route("/single/:id").get((req, res) => {
+  Backup.findById(req.params.id)
+    .then(recipe => res.json(recipe))
+    .catch(err => res.status(400).json("Error: " + err));
+});
 
 module.exports = router;

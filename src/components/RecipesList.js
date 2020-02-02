@@ -1,19 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faEye } from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios";
+
 const clockIcon = <FontAwesomeIcon icon={faClock} />;
+const eyeIcon = <FontAwesomeIcon icon={faEye} />;
 
 const Recipe = props => (
   <tr>
-    <td>{props.recipe.recipeName}</td>
-    <td>{props.recipe.recipeDescription}</td>
+    <td className="recipe-name">{props.recipe.recipeName}</td>
+    <td className="description-desktop">{props.recipe.recipeDescription}</td>
+    <td className="description-mobile">
+      <Link
+        to={{
+          pathname: "/description/" + props.recipe._id,
+          state: { name: `${props.recipe.recipeDescription}` }
+        }}
+      >
+        click to {eyeIcon}
+      </Link>
+    </td>
     <td>{props.recipe.cookingTime} min</td>
     <td>{props.recipe.date.substring(0, 10)}</td>
     <td>
-      <Link to={"/edit/" + props.recipe._id}>edit</Link> |{" "}
+      <Link to={"/edit/" + props.recipe._id}>edit</Link>{" "}
       <a
         href="#"
         onClick={() => {
@@ -22,7 +34,7 @@ const Recipe = props => (
       >
         delete
       </a>{" "}
-      | <Link to={"/backups/" + props.recipe.hidenId}>history</Link> |
+      <Link to={"/backups/" + props.recipe.hidenId}>history</Link>
     </td>
   </tr>
 );
@@ -35,8 +47,19 @@ export default class RecipesList extends Component {
     this.toggleSortDate = this.toggleSortDate.bind(this);
 
     this.state = {
-      recipes: []
+      recipes: [],
+      isLoading: true
     };
+  }
+  componentDidMount() {
+    axios
+      .get("http://localhost:5000/recipes/")
+      .then(response => {
+        this.setState({ recipes: response.data, isLoading: false });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   sortByDate() {
@@ -56,17 +79,6 @@ export default class RecipesList extends Component {
     e.preventDefault();
   }
 
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/recipes/")
-      .then(response => {
-        this.setState({ recipes: response.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   deleteRecipe(id) {
     axios.delete("http://localhost:5000/recipes/" + id).then(response => {
       console.log(response.data);
@@ -76,17 +88,20 @@ export default class RecipesList extends Component {
       recipes: this.state.recipes.filter(el => el._id !== id)
     });
   }
-
   recipeList() {
-    return this.state.recipes.map(currentrecipe => {
-      return (
-        <Recipe
-          recipe={currentrecipe}
-          deleteRecipe={this.deleteRecipe}
-          key={currentrecipe._id}
-        />
-      );
-    });
+    if (this.state.isLoading) {
+      return <h2>Loading..</h2>;
+    } else {
+      return this.state.recipes.map(currentrecipe => {
+        return (
+          <Recipe
+            recipe={currentrecipe}
+            deleteRecipe={this.deleteRecipe}
+            key={currentrecipe._id}
+          />
+        );
+      });
+    }
   }
 
   render() {
@@ -102,7 +117,7 @@ export default class RecipesList extends Component {
               <th style={{ width: "108px" }}>
                 <button
                   type="button"
-                  class="btn btn-outline-secondary"
+                  className="btn btn-outline-secondary"
                   onClick={this.toggleSortDate}
                   style={{ width: "60px" }}
                 >

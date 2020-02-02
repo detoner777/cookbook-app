@@ -16,7 +16,7 @@ export default class EditRecipe extends Component {
     this.state = {
       recipeName: "",
       recipeDescription: "",
-      cookingTime: 0,
+      cookingTime: "",
       date: new Date(),
       hidenId: ""
     };
@@ -89,6 +89,7 @@ export default class EditRecipe extends Component {
         recipe
       )
       .then(res => console.log(res.data));
+    //create backup by hidenId
     axios
       .post("http://localhost:5000/backups/add", backup)
       .then(res => console.log(res.data));
@@ -113,13 +114,14 @@ export default class EditRecipe extends Component {
           </div>
           <div className="form-group">
             <label>Description: </label>
-            <input
+            <textarea
               type="text"
               required
               className="form-control"
+              rows="3"
               value={this.state.recipeDescription}
               onChange={this.onChangeRecipeDescription}
-            />
+            ></textarea>
           </div>
           <div className="form-group">
             <label>Cooking time(in minutes): </label>

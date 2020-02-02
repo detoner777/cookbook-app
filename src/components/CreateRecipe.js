@@ -17,7 +17,7 @@ export default class CreateRecipe extends Component {
     this.state = {
       recipeName: "",
       recipeDescription: "",
-      cookingTime: 0,
+      cookingTime: "",
       date: new Date(),
       hidenId: ""
     };
@@ -82,6 +82,7 @@ export default class CreateRecipe extends Component {
     axios
       .post("http://localhost:5000/recipes/add", recipe)
       .then(res => console.log(res.data));
+    //create backup by hidenId
     axios
       .post("http://localhost:5000/backups/add", backup)
       .then(res => console.log(res.data));

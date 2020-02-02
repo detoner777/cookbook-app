@@ -1,0 +1,17 @@
+@media screen and (max-width: 600px){
+	.description-desktop {
+		display: none
+	} 
+}
+
+@media screen and (min-width: 601px){
+	.description-mobile {
+		display: none;
+	
+ }
+  
+}
+
+.recipe-name {
+	font-weight: 500;
+}

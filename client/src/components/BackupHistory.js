@@ -60,7 +60,10 @@ export default class RecipesList extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/backups/" + this.props.match.params.hidenId)
+      .get(
+        "https://cook-book-777.herokuapp.com/backups/" +
+          this.props.match.params.hidenId
+      )
       .then(response => {
         this.setState({ recipes: response.data, isLoading: false });
       })
@@ -71,7 +74,7 @@ export default class RecipesList extends Component {
 
   recipeList() {
     if (this.state.isLoading) {
-      return <h2>Loading..</h2>;
+      return <h3>Loading..</h3>;
     } else {
       return this.state.recipes.map(currentrecipe => {
         return (

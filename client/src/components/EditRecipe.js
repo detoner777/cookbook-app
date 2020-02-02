@@ -24,7 +24,10 @@ export default class EditRecipe extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/recipes/" + this.props.match.params.id)
+      .get(
+        "https://cook-book-777.herokuapp.com/recipes/" +
+          this.props.match.params.id
+      )
       .then(response => {
         this.setState({
           recipeName: response.data.recipeName,
@@ -85,13 +88,14 @@ export default class EditRecipe extends Component {
 
     axios
       .post(
-        "http://localhost:5000/recipes/update/" + this.props.match.params.id,
+        "https://cook-book-777.herokuapp.com/recipes/update/" +
+          this.props.match.params.id,
         recipe
       )
       .then(res => console.log(res.data));
     //create backup by hidenId
     axios
-      .post("http://localhost:5000/backups/add", backup)
+      .post("https://cook-book-777.herokuapp.com/backups/add", backup)
       .then(res => console.log(res.data));
 
     window.location = "/";

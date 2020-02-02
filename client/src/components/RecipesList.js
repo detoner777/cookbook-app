@@ -53,7 +53,7 @@ export default class RecipesList extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://localhost:5000/recipes/")
+      .get("https://cook-book-777.herokuapp.com/recipes/")
       .then(response => {
         this.setState({ recipes: response.data, isLoading: false });
       })
@@ -80,9 +80,11 @@ export default class RecipesList extends Component {
   }
 
   deleteRecipe(id) {
-    axios.delete("http://localhost:5000/recipes/" + id).then(response => {
-      console.log(response.data);
-    });
+    axios
+      .delete("https://cook-book-777.herokuapp.com/recipes/" + id)
+      .then(response => {
+        console.log(response.data);
+      });
 
     this.setState({
       recipes: this.state.recipes.filter(el => el._id !== id)
@@ -90,7 +92,7 @@ export default class RecipesList extends Component {
   }
   recipeList() {
     if (this.state.isLoading) {
-      return <h2>Loading..</h2>;
+      return <h3>Loading..</h3>;
     } else {
       return this.state.recipes.map(currentrecipe => {
         return (

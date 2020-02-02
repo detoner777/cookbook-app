@@ -80,11 +80,11 @@ export default class CreateRecipe extends Component {
     // console.log(backup);
 
     axios
-      .post("http://localhost:5000/recipes/add", recipe)
+      .post("https://cook-book-777.herokuapp.com/recipes/add", recipe)
       .then(res => console.log(res.data));
     //create backup by hidenId
     axios
-      .post("http://localhost:5000/backups/add", backup)
+      .post("https://cook-book-777.herokuapp.com/backups/add", backup)
       .then(res => console.log(res.data));
 
     window.location = "/";

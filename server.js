@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const path = require("path");
 
 require("dotenv").config();
 
@@ -21,11 +23,24 @@ connection.once("open", () => {
   console.log("MongoDB connected");
 });
 
+//Configuration
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+
 const recipesRouter = require("./routes/recipes");
 const backupsRouter = require("./routes/backups");
 
 app.use("/recipes", recipesRouter);
 app.use("/backups", backupsRouter);
+
+//Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html")); //relative path
+  });
+}
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
